@@ -27,6 +27,24 @@ productRouter.get(
 );
 
 productRouter.get(
+  "/delete",
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    // console.log("params", req);
+    const id = req.query.id;
+    if (id) {
+      const product = await Product.deleteOne({ _id: id });
+      res.status(201);
+      res.send({ message: "success" });
+      return;
+    }
+
+    res.status(500).send("Invalid product ID");
+  })
+);
+
+productRouter.get(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
@@ -50,6 +68,7 @@ productRouter.post(
 
     if (id) {
       product = await Product.findById(id);
+      console.log("modify product");
     }
 
     product.name = req.body.name;
@@ -67,5 +86,4 @@ productRouter.post(
     res.send(createdProduct);
   })
 );
-
 export default productRouter;

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
-import { createProduct, getProducts } from "../redux/product/actions";
+import { createProduct, deleteProduct, getProducts } from "../redux/product/actions";
 import { CREATE_PRODUCT_RESET } from "../redux/product/constants";
 
 function ProductsAministration(props) {
@@ -18,13 +18,15 @@ function ProductsAministration(props) {
   // console.log("products", products);
 
   const dispatch = useDispatch();
-  const editProduct = (id) => {
+  const editProduct = (id, e) => {
+    e.preventDefault();
     //TODO:
     props.history.push(`/admin/product?id=${id}`);
   };
 
-  const deleteProduct = (id) => {
+  const deleteProductHandler = (id) => {
     //TODO:
+    dispatch(deleteProduct(id));
   };
 
   const createProductHanler = () => {
@@ -35,10 +37,10 @@ function ProductsAministration(props) {
 
   useEffect(() => {
     if (successCreate) {
+      dispatch(getProducts());
       dispatch({ type: CREATE_PRODUCT_RESET });
-      props.history.push(`/admin/product?id=${createdProduct._id}`);
+      // props.history.push(`/admin/product?id=${createdProduct._id}`);
     }
-    dispatch(getProducts);
   }, [dispatch, successCreate]);
 
   return (
@@ -81,13 +83,13 @@ function ProductsAministration(props) {
                 <td>
                   <button
                     className="small"
-                    onClick={(e) => editProduct(product._id)}
+                    onClick={(e) => editProduct(product._id, e)}
                   >
                     Edit
                   </button>
                   <button
                     className="small"
-                    onClick={(e) => deleteProduct(product._id)}
+                    onClick={(e) => deleteProductHandler(product._id)}
                   >
                     Delete
                   </button>

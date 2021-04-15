@@ -49,28 +49,7 @@ function UserProfileScreen(props) {
             placeholder="Enter email"
           />
         </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter password"
-          />
-        </div>
-        <div>
-          <label htmlFor="confirmPassword">Confirm Password</label>
-          <input
-            id="confirmPassword"
-            name="confirmPassword"
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="Enter confirm password"
-          />
-        </div>
+        
         <div>
           <label></label>
           <button type="submit" className="primary block" disabled={disabled}>

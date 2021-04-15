@@ -1,4 +1,7 @@
 import {
+  FETCH_USERS_FAILURE,
+  FETCH_USERS_REQUEST,
+  FETCH_USERS_SUCCESS,
   SIGN_IN_FAILURE,
   SIGN_IN_REQUEST,
   SIGN_IN_SUCCESS,
@@ -56,6 +59,34 @@ export const userReducer = (state = {}, action) => {
 
     case SIGN_OUT:
       return {};
+
+    default:
+      return state;
+  }
+};
+
+export const usersReducer = (state = {}, action) => {
+  switch (action.type) {
+    case FETCH_USERS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: "",
+      };
+
+    case FETCH_USERS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        users: action.payload,
+      };
+
+    case FETCH_USERS_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
 
     default:
       return state;

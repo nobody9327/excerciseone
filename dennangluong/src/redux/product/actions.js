@@ -3,6 +3,9 @@ import {
   CREATE_PRODUCT_FAILURE,
   CREATE_PRODUCT_REQUEST,
   CREATE_PRODUCT_SUCCESS,
+  DELETE_PRODUCT_FAILURE,
+  DELETE_PRODUCT_REQUEST,
+  DELETE_PRODUCT_SUCCESS,
   PRODUCT_DETAILS_FAILURE,
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
@@ -68,5 +71,23 @@ export const createProduct = (data) => (dispatch, getState) => {
       const message =
         (error.response && error.response.data.message) || error.message;
       dispatch({ type: CREATE_PRODUCT_FAILURE, payload: message });
+    });
+};
+
+export const deleteProduct = (id) => (dispatch, getState) => {
+  const { userInfo } = getState().user;
+  dispatch({ type: DELETE_PRODUCT_REQUEST });
+
+  axios
+    .get(`/products/delete?id=${id}`, {
+      headers: { Authorization: `Bearer ${userInfo.token}` },
+    })
+    .then((response) => {
+      dispatch({ type: DELETE_PRODUCT_SUCCESS, payload: id });
+    })
+    .catch((error) => {
+      const message =
+        (error.response && error.response.data.message) || error.message;
+      dispatch({ type: DELETE_PRODUCT_FAILURE, payload: message });
     });
 };

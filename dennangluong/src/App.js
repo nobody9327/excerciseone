@@ -19,10 +19,12 @@ import PaymentScreen from "./screens/PaymentScreen";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import ProductsAministration from "./screens/ProductsAministration";
 import ProductScreen from "./screens/ProductScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 import ShippingScreen from "./screens/ShippingScreen";
 import SigninScreen from "./screens/SigninScreen";
 import SignupScreen from "./screens/SignupScreen";
 import UpdateProductScreen from "./screens/UpdateProductScreen";
+import UserAdministration from "./screens/UserAdministration";
 import UserProfileScreen from "./screens/UserProfileScreen";
 
 function App() {
@@ -86,13 +88,28 @@ function App() {
                         </Link>
                       </li>
                       <li>
-                        <Link to="/users">{nobody.header.users}</Link>
+                        <Link to="/admin/users">{nobody.header.users}</Link>
                       </li>
                       <li>
-                        <Link to="/orders">{nobody.header.orders}</Link>
+                        <Link to="/admin/orders">{nobody.header.orders}</Link>
                       </li>
                     </>
                   )}
+                  {userInfo.isSeller && (
+                    <>
+                      <li>
+                        <Link to="/seller/products">
+                          {nobody.header.products}
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/seller/orders">{nobody.header.orders}</Link>
+                      </li>
+                    </>
+                  )}
+                  <li>
+                    <a>------</a>
+                  </li>
                   <li>
                     <Link to="/" onClick={signoutHandler}>
                       {nobody.header.signout}
@@ -107,17 +124,14 @@ function App() {
         </header>
         <main>
           {/* <MessageBox></MessageBox> */}
+
           <PrivateRoute
             path="/profile"
-            component={UserProfileScreen}
+            component={ProfileScreen}
           ></PrivateRoute>
           <PrivateRoute
             path="/orderhistory"
             component={OrderHistoryScreen}
-          ></PrivateRoute>
-          <PrivateRoute
-            path="/orders/:id"
-            component={OrderScreen}
           ></PrivateRoute>
           <PrivateRoute path="/cart" component={CartScreens}></PrivateRoute>
           <PrivateRoute
@@ -132,19 +146,27 @@ function App() {
             path="/shipping"
             component={ShippingScreen}
           ></PrivateRoute>
+
+          <AdminRoute
+            path="/admin/orders/:id"
+            component={OrderScreen}
+          ></AdminRoute>
+          <AdminRoute
+            path="/admin/users"
+            component={UserAdministration}
+          ></AdminRoute>
           <AdminRoute
             path="/admin/products"
             component={ProductsAministration}
           ></AdminRoute>
-          <AdminRoute path="/admin/product" component={UpdateProductScreen}></AdminRoute>
+          <AdminRoute
+            path="/admin/product"
+            component={UpdateProductScreen}
+          ></AdminRoute>
 
           <Route path="/signup" component={SignupScreen}></Route>
           <Route path="/sign-in" component={SigninScreen}></Route>
-          <Route
-            path="/products/:id"
-            component={ProductScreen}
-            exact
-          ></Route>
+          <Route path="/products/:id" component={ProductScreen} exact></Route>
           <Route path="/" exact component={HomeScreen}></Route>
         </main>
         <footer className="row center">

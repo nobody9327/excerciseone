@@ -96,6 +96,14 @@ function UpdateProductScreen(props) {
       setImage(product.image);
       setDescription(product.description);
       setCountInStock(product.countInStock);
+    }else{
+      setName('');
+      setCategory('');
+      setBrand('');
+      setPrice(0);
+      setImage('');
+      setDescription('');
+      setCountInStock('');
     }
   }, [product, refProduct]);
 

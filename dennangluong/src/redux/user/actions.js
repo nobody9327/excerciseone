@@ -1,4 +1,7 @@
 import {
+  FETCH_USERS_FAILURE,
+  FETCH_USERS_REQUEST,
+  FETCH_USERS_SUCCESS,
   SIGN_IN_FAILURE,
   SIGN_IN_REQUEST,
   SIGN_IN_SUCCESS,
@@ -73,5 +76,24 @@ export const updateUserProfile = (data) => (dispatch, getState) => {
     .catch((error) => {
       const message = (error.response && error.response.data) || error.message;
       dispatch({ type: UPDATE_USER_PROFILE_FAIL, payload: message });
+    });
+};
+
+export const fetchUsers = () => (dispatch, getState) => {
+  const { userInfo } = getState().user;
+  dispatch({ type: FETCH_USERS_REQUEST });
+
+  axios
+    .get("/users/all", {
+      headers: { Authorization: `Bearer ${userInfo.token}` },
+    })
+    .then((response) => {
+      const users = response.data;
+      dispatch({ type: FETCH_USERS_SUCCESS, payload: users });
+    })
+    .catch((error) => {
+      const message =
+        (error.response && error.response.data.message) || error.message;
+      dispatch({ type: FETCH_USERS_FAILURE, payload: message });
     });
 };

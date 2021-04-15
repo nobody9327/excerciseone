@@ -3,7 +3,7 @@ import expressAsyncHandler from "express-async-handler";
 import data from "../constants/data.js";
 import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
-import { createToken, isAuth } from "../utils.js";
+import { createToken, isAdmin, isAuth } from "../utils.js";
 
 const userRouter = express.Router();
 
@@ -66,6 +66,17 @@ userRouter.post(
     } catch (ex) {
       res.status(500).send(ex.message);
     }
+  })
+);
+
+userRouter.get(
+  "/all",
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const user = req.user;
+    const users = await User.find({});
+    res.send(users);
   })
 );
 
