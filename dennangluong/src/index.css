@@ -1,0 +1,317 @@
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  height: 100vh;
+  font-size: 1.6rem;
+  font-family: Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  height: 100%;
+}
+
+/*Layout*/
+.grid-container {
+  display: grid;
+  grid-template-areas: "header" "main" "footer";
+  grid-template-rows: 5rem 1fr 5rem;
+  grid-template-columns: 1fr;
+  height: 100%;
+}
+
+header {
+  grid-area: header;
+  background-color: black;
+  width: 100%;
+  position: fixed;
+}
+
+main {
+  grid-area: main;
+  margin: 1rem;
+}
+
+footer {
+  grid-area: footer;
+  background-color: black;
+  color: white;
+}
+
+/* Common */
+
+h1 {
+  font-size: 1.8rem;
+  padding: 1rem 0;
+}
+
+h2 {
+  font-size: 1.6rem;
+  padding: 1rem 0;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.row.center {
+  justify-content: center;
+}
+
+.row.top {
+  align-items: flex-start;
+}
+
+.col-1 {
+  flex: 1 1 25rem;
+}
+
+.col-2 {
+  flex: 2 1 25rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  color: #ffd000;
+}
+
+.alert {
+  border-radius: 0.5rem;
+  border: 0.1rem solid transparent;
+  padding: 1rem;
+}
+
+.alert-info {
+  color: blue;
+  background-color: #f2f2f2;
+}
+
+.alert-danger {
+  color: red;
+  background-color: #fcd9d9;
+}
+
+.success {
+  color: green;
+}
+
+.danger {
+  color: #faac46;
+}
+
+ul {
+  list-style-type: none;
+  padding: 1rem;
+}
+
+li {
+  margin-bottom: 1rem;
+}
+
+select,
+input,
+textarea,
+button {
+  font-size: 1.6rem;
+  font-family: Helvetica, Arial, sans-serif;
+  border-radius: 0.5rem;
+  border: 0.1rem #e6e6e6 solid;
+  padding: 1rem;
+}
+
+button {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  cursor: pointer;
+}
+
+button.block {
+  width: 100%;
+}
+
+button.small {
+  font-size: 1.2rem;
+}
+
+button.primary {
+  background-color: #faac46;
+}
+
+button:hover {
+  border: 0.1rem #a3a3a3 solid;
+}
+
+.item-detail {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr;
+}
+
+.item-detail > :last-child {
+  margin-left: auto;
+}
+
+.grid-5 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 1fr;
+}
+
+.grid-5 > :last-child {
+  margin-left: auto;
+}
+
+/* Header */
+header a {
+  color: white;
+  padding: 1rem;
+}
+
+a.brand {
+  font-size: 3rem;
+  font-weight: bold;
+  color: white;
+}
+
+.badge {
+  border-radius: 50%;
+  padding: 0.2rem 0.7rem;
+  color: white;
+  background-color: red;
+}
+
+/* Rating */
+.rating span {
+  color: #ffd000;
+  margin: 0.1rem;
+}
+
+.rating span:last-child {
+  color: black;
+}
+
+.dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.dropdown-content {
+  position: absolute;
+  display: none;
+  right: 0;
+  min-width: 12rem;
+  padding: 1rem;
+  z-index: auto;
+  background-color: black;
+  margin: 0;
+  margin-top: 0.4rem;
+  border-radius: 0.5rem;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Card */
+.card {
+  border: 0.1rem #e6e6e6 solid;
+  margin: 1rem;
+  background-color: #fafafa;
+  border-radius: 0.5rem;
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+.card-body > * {
+  margin-bottom: 1.5rem;
+}
+/* 
+/* Loadingbox 
+.loading {
+  margin-left: auto;
+  margin-right: auto;
+} */
+
+/* Price */
+.price {
+  font-size: 2rem;
+}
+
+/* Images */
+img.medium {
+  max-width: 29rem;
+  max-height: 30rem;
+  width: 100%;
+  height: 100%;
+}
+
+img.large {
+  width: 100%;
+}
+
+img.small {
+  width: 5rem;
+  height: 5rem;
+}
+
+/* Form */
+.form {
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+.form > div {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+}
+
+.form label {
+  margin: 1rem 0;
+}
+
+/* Checkout */
+.checkout-steps > div {
+  border-top: 0.3rem gray solid;
+  padding: 1rem;
+  flex: 1;
+  color: grey;
+}
+
+.checkout-steps > div.active {
+  border-top: 0.3rem #f5a52c solid;
+  color: #f5a52c;
+}
+
+/* Table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table tbody tr:nth-of-type(odd) {
+  background-color: #f4f4f4;
+}
+
+.table td,
+.table th {
+  text-align: left;
+  border: 0.1rem solid #e4e4e4;
+  padding: 0.5rem;
+}
+
+.table button {
+  margin: 0 0.2rem;
+}
