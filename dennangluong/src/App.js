@@ -11,12 +11,14 @@ import {
   getCart,
 } from "./redux/cart/actions";
 import { signout } from "./redux/user/actions";
+import OrdersAdministration from "./screens/admin/OrdersAdministration";
 import ProductsAministration from "./screens/admin/ProductsAministration";
 import UpdateProductScreen from "./screens/admin/UpdateProductScreen";
 import UserAdministration from "./screens/admin/UserAdministration";
 import SigninScreen from "./screens/authen/SigninScreen";
 import SignupScreen from "./screens/authen/SignupScreen";
 import CartScreens from "./screens/CartScreens";
+import OrderDetailsScreen from "./screens/checkout/OrderDetailsScreen";
 import PaymentScreen from "./screens/checkout/PaymentScreen";
 import PlaceOrderScreen from "./screens/checkout/PlaceOrderScreen";
 import ShippingScreen from "./screens/checkout/ShippingScreen";
@@ -25,6 +27,7 @@ import OrderHistoryScreen from "./screens/OrderHistoryScreen";
 import OrderScreen from "./screens/OrderScreen";
 import ProductScreen from "./screens/ProductScreen";
 import ProfileScreen from "./screens/ProfileScreen";
+import TestProductScreen from "./test/TestProductScreen";
 // import UserProfileScreen from "./screens/UserProfileScreen";
 
 function App() {
@@ -44,9 +47,10 @@ function App() {
 
   useEffect(() => {
     if (userInfo && userInfo.token) {
-      Promise.resolve(dispatch(getCart())).then(
+      Promise.resolve(dispatch(getCart()))
+        .then
         // dispatch(fetchShippingAddress())
-      );
+        ();
     }
   }, [dispatch, userInfo]);
 
@@ -76,9 +80,15 @@ function App() {
                   <li>
                     <Link to="/profile">{nobody.header.profile}</Link>
                   </li>
-                  <li>
-                    <Link to="/orderhistory">{nobody.header.orderhistory}</Link>
-                  </li>
+
+                  {!userInfo.isAdmin && (
+                    <li>
+                      <Link to="/orderhistory">
+                        {nobody.header.orderhistory}
+                      </Link>
+                    </li>
+                  )}
+
                   {userInfo.isAdmin && (
                     <>
                       <li>
@@ -148,10 +158,19 @@ function App() {
             path="/shipping"
             component={ShippingScreen}
           ></PrivateRoute>
+          <PrivateRoute
+            path="/user/orders/:id"
+            component={OrderDetailsScreen}
+          ></PrivateRoute>
 
           <AdminRoute
             path="/admin/orders/:id"
-            component={OrderScreen}
+            component={OrderDetailsScreen}
+          ></AdminRoute>
+          <AdminRoute
+            path="/admin/orders"
+            component={OrdersAdministration}
+            exact
           ></AdminRoute>
           <AdminRoute
             path="/admin/users"
@@ -166,6 +185,12 @@ function App() {
             component={UpdateProductScreen}
           ></AdminRoute>
 
+          {/* for test */}
+          <AdminRoute
+            path="/admin/test/product/:id"
+            component={TestProductScreen}
+          ></AdminRoute>
+          {/* for test */}
           <Route path="/signup" component={SignupScreen}></Route>
           <Route path="/sign-in" component={SigninScreen}></Route>
           <Route path="/products/:id" component={ProductScreen} exact></Route>

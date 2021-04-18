@@ -1,63 +1,39 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import CheckoutStep from "../../components/CheckoutStep";
-import LoadingBox from "../../components/LoadingBox";
-import MessageBox from "../../components/MessageBox";
 import { nobody } from "../../constants/AppConstants";
-import { emptyCart } from "../../redux/cart/actions";
-import { createOrder } from "../../redux/order/actions";
-import { ORDER_RESET } from "../../redux/order/constants";
+import { fetchOrderDetails } from "../../redux/order/actions";
 
-function PlaceOrderScreen(props) {
-  const user = useSelector((state) => state.user);
-  const { userInfo } = user;
-  const cart = useSelector((state) => state.cart) || {};
-  const shippingAddress = cart.shippingAddress || {};
+function OrderDetailsScreen(props) {
+  const id = props.match.params.id;
   const order = useSelector((state) => state.order);
-  const { loading, error, orderDetails, success } = order;
+  const { orderDetails } = order;
+  const {
+    orderItems,
+    paymentMethod,
+    itemsPrice,
+    taxPrice,
+    shippingPrice,
+    totalPrice,
+    isDeliverd,
+    deliverdAt,
+    isPaid,
+    paidAt,
+    _id,
+  } = orderDetails || {};
+
+  const shippingAddress = orderDetails.shippingAddress || {};
+
   const dispatch = useDispatch();
 
-  cart.itemsPrice = cart.cartItems.reduce(
-    (a, b) => a + b.price * b.quantity,
-    0
-  );
-  cart.taxPrice = (cart.itemsPrice * 10) / 100;
-  cart.totalPrice = cart.itemsPrice + cart.taxPrice;
-  cart.itemsPrice = cart.itemsPrice.toFixed(2);
-  cart.taxPrice = cart.taxPrice.toFixed(2);
-  cart.totalPrice = cart.totalPrice.toFixed(2);
-  cart.shippingPrice = 0;
-
-  const orderHandler = (e) => {
-    e.preventDefault();
-    // console.log(cart);
-    const orderItems = cart.cartItems.map((item) => {
-      return { ...item, product: item._id };
-    });
-    dispatch(
-      createOrder({
-        ...cart,
-        orderItems,
-      })
-    );
-  };
-
-  if (!cart || !cart.paymentMethod) {
-    // console.log("about to go to payment");
-    props.history.push("/payment");
-  }
-
   useEffect(() => {
-    if (success) {
-      props.history.push(`/user/orders/${orderDetails._id}`);
-      dispatch({ type: ORDER_RESET });
-      dispatch(emptyCart());
+    //TODO:
+    if (id) {
+      dispatch(fetchOrderDetails({ _id: id }));
     }
-  }, [success]);
+  }, []);
 
   return (
     <div>
-      <CheckoutStep step1 step2 step3 step4></CheckoutStep>
       <div className="row top">
         <div className="col-2">
           <div className="card card-body">
@@ -68,9 +44,11 @@ function PlaceOrderScreen(props) {
               <strong>{nobody.user.name}: </strong>
               {shippingAddress.fullName}
               <br />
+              <strong>{nobody.user.phone}: </strong>{shippingAddress.phone}
+              <br />
               <strong>{nobody.user.address}: </strong>
-              {shippingAddress.address}, {shippingAddress.city},{" "}
-              {shippingAddress.postalCode}, {shippingAddress.country}
+              {shippingAddress.address}, {shippingAddress.county},{" "}
+              {shippingAddress.city}
             </p>
           </div>
           <div className="card card-body">
@@ -78,7 +56,7 @@ function PlaceOrderScreen(props) {
               <h1>{nobody.checkout.payment}</h1>
             </div>
             <p>
-              <strong>{nobody.payment.method}:</strong> {cart.paymentMethod}
+              <strong>{nobody.payment.method}:</strong> {paymentMethod}
             </p>
           </div>
           <div className="card card-body">
@@ -86,17 +64,9 @@ function PlaceOrderScreen(props) {
               <h1>{nobody.cart.items}</h1>
             </div>
             <table className="table">
-              {/* <thead>
-                <tr>
-                  <th></th>
-                  <th></th>
-                  <th>sl x đơn giá</th>
-                  <th>thành tiền</th>
-                </tr>
-              </thead> */}
               <tbody>
-                {cart.cartItems &&
-                  cart.cartItems.map((item) => (
+                {orderItems &&
+                  orderItems.map((item) => (
                     <tr key={item._id}>
                       <td>
                         <img className="small" src={item.image} />
@@ -120,7 +90,7 @@ function PlaceOrderScreen(props) {
             <ul>
               <li className="row">
                 <span>{nobody.order.items}</span>
-                <span>{cart.itemsPrice} đ</span>
+                <span>{itemsPrice} đ</span>
               </li>
               <li className="row">
                 <span>{nobody.order.shipping}</span>
@@ -134,15 +104,15 @@ function PlaceOrderScreen(props) {
                 <span>
                   <strong>{nobody.order.orderTotal}</strong>
                 </span>
-                <span>{cart.totalPrice} đ</span>
+                <span>{totalPrice} đ</span>
               </li>
-              <li>
+              {/* <li>
                 <button className="block primary" onClick={orderHandler}>
                   {nobody.order.order}
                 </button>
               </li>
               {loading && <LoadingBox></LoadingBox>}
-              {error && <MessageBox variant="danger">{error}</MessageBox>}
+              {error && <MessageBox variant="danger">{error}</MessageBox>} */}
             </ul>
           </div>
         </div>
@@ -151,4 +121,4 @@ function PlaceOrderScreen(props) {
   );
 }
 
-export default PlaceOrderScreen;
+export default OrderDetailsScreen;

@@ -65,6 +65,14 @@ h2 {
   justify-content: center;
 }
 
+.splitter{
+  border-bottom: 0.2rem solid gray;
+  margin-right: 2rem;
+}
+.row.left{
+  justify-content: left;
+}
+
 .row.top {
   align-items: flex-start;
 }
@@ -372,3 +380,42 @@ input[type=number] {
   max-height: 5rem;
   height: 100%;
 } */
+
+
+/* Product layout*/
+.product-grid{
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  grid-template-rows: 1fr;
+}
+
+.product-info{
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: max-content auto;
+  margin-left: 1rem;
+}
+
+.product-info button{
+  border-radius: 0%;
+  min-width: 20rem;
+  text-align: left;
+  justify-self: left;
+}
+
+.product-info button.active{
+  background-color: #dbdbd9;
+}
+
+.product-description{
+  border: 0.1rem solid gainsboro;
+  /* height: 90%; */
+  /* height: 100%; */
+  /* padding: 1rem; */
+}
+
+.right-content{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}

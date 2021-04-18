@@ -9,7 +9,7 @@ function HomeScreen() {
   const productList = useSelector((state) => state.productList);
   const { products, loading, error } = productList;
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     dispatch(getProducts());
   }, []);
@@ -22,9 +22,12 @@ function HomeScreen() {
 
   return (
     <div className="row center">
-      {products.map((product) => (
-        <Product key={product._id} product={product}></Product>
-      ))}
+      {products.map(
+        (product) =>
+          product.active && (
+            <Product key={product._id} product={product}></Product>
+          )
+      )}
     </div>
   );
 }

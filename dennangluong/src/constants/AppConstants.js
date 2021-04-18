@@ -120,6 +120,10 @@ export const nobody = {
       yes: "Đã thanh toán",
       no: "Chưa thanh toán",
     },
+    admin: {
+      user: 'Người đặt',
+
+    }
   },
   checkout: {
     signin: "Đăng nhập",
@@ -127,4 +131,8 @@ export const nobody = {
     payment: "Thanh toán",
     placeOrder: "Đặt hàng",
   },
+  test:{
+    detail: "Thời gian sử dụng: 12 giờ\n Solar Panel: 20W/6V Khung Nhôm\nPin LiFePO4: 3.2V 20000MA\nKích thước đèn: 290 x 260 x 95mm\nKích thước solar: 460 x 340 x 18mm\nSố bóng LED: 208, 2835 SMD\nPhạm vi sáng: 90m2\nChiều dài dây: 5m. Có remote, cảm biến tự động sáng tối.\nTrọng lượng: 4,9kg\nChuẩn chống nước IP67. Thích hợp để trong nhà hay ngoài trời\nĐèn led 100W Năng Lượng Mặt Trời công suất 100W, Ánh sáng trắng , Sản phẩm sử dụng 100% năng lượng mặt trời\nGiá sản phẩm trên Tiki đã bao gồm thuế theo luật hiện hành. Tuy nhiên tuỳ vào từng loại sản phẩm hoặc phương thức, địa chỉ giao hàng mà có thể phát sinh thêm chi phí khác như phí vận chuyển, phụ phí hàng cồng kềnh, ...",
+    description: "Thương hiệu	OEM\nXuất xứ thương hiệu	Việt Nam/Trung Quốc/Thái Lan/Indonesia…\nXuất xứ	China / Vietnam\nSKU	6754743002091"
+  }
 };

@@ -21,7 +21,12 @@ orderRouter.get(
   expressAsyncHandler(async (req, res) => {
     const user = req.user;
     console.log("user", user);
-    const order = await Order.findOne({ user: user._id, _id: req.params.id });
+    let order = {};
+    if (user.isAdmin) {
+      order = await Order.findOne({ _id: req.params.id });
+    } else {
+      order = await Order.findOne({ user: user._id, _id: req.params.id });
+    }
 
     res.send(order);
   })
@@ -59,7 +64,12 @@ orderRouter.get(
   isAuth,
   expressAsyncHandler(async (req, res) => {
     const user = req.user;
-    const orders =await Order.find({ user: user._id });
+    let orders = [];
+    if (user.isAdmin) {
+      orders = await Order.find({});
+    } else {
+      orders = await Order.find({ user: user._id });
+    }
 
     res.send(orders);
   })

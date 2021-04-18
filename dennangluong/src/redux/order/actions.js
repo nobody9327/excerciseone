@@ -69,3 +69,4 @@ export const fetchOrders = () => (dispatch, getSate) => {
       dispatch({ type: FETCH_ORDERS_LIST_FAILURE, payload: message });
     });
 };
+

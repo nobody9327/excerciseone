@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import LoadingBox from "../components/LoadingBox";
-import MessageBox from "../components/MessageBox";
-import { nobody } from "../constants/AppConstants";
-import { fetchOrders } from "../redux/order/actions";
+import LoadingBox from "../../components/LoadingBox";
+import MessageBox from "../../components/MessageBox";
+import { nobody } from "../../constants/AppConstants";
+import { fetchOrders } from "../../redux/order/actions";
 
-function OrderHistoryScreen(props) {
+function OrdersAdministration(props) {
   const order = useSelector((state) => state.order);
   const { orders, loading, error } = order;
   const dispatch = useDispatch();
@@ -25,6 +25,7 @@ function OrderHistoryScreen(props) {
           <thead>
             <tr>
               <th>{nobody.order.id}</th>
+              <th>{nobody.order.admin.user}</th>
               <th>{nobody.order.orderDate}</th>
               <th>{nobody.order.total}</th>
               <th>{nobody.order.payment.title}</th>
@@ -36,6 +37,7 @@ function OrderHistoryScreen(props) {
             {orders.map((o) => (
               <tr key={o._id}>
                 <td>{o._id}</td>
+                <td>{'null'}</td>
                 <td>{o.createdAt}</td>
                 <td>{o.totalPrice.toFixed(2)}</td>
                 <td>{o.isPaid ? order.paidAt.substring(0, 10) : "No"}</td>
@@ -44,7 +46,7 @@ function OrderHistoryScreen(props) {
                   <button
                     type="button"
                     className="small"
-                    onClick={() => props.history.push(`/user/orders/${o._id}`)}
+                    onClick={() => props.history.push(`/admin/orders/${o._id}`)}
                   >
                     Details
                   </button>
@@ -58,4 +60,4 @@ function OrderHistoryScreen(props) {
   );
 }
 
-export default OrderHistoryScreen;
+export default OrdersAdministration;
