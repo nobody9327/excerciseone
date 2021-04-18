@@ -37,6 +37,46 @@ export const signin = (data) => (dispatch) => {
     });
 };
 
+export const signinWithFacebook = (data) => (dispatch) => {
+  dispatch({ type: SIGN_IN_REQUEST });
+
+  axios
+    .get("/users/signin-with-facebook", {
+      headers: { Authorization: data.token },
+    })
+    .then((response) => {
+      const user = response.data;
+      dispatch({ type: SIGN_IN_SUCCESS, payload: user });
+      localStorage.setItem("userInfo", JSON.stringify(user));
+    })
+    .catch((error) => {
+      const message = error.response
+        ? error.response.data.message
+        : error.message;
+      dispatch({ type: SIGN_IN_FAILURE, payload: message });
+    });
+};
+
+export const signinWithGoogle = (data) => (dispatch) => {
+  dispatch({ type: SIGN_IN_REQUEST });
+
+  axios
+    .get("/users/signin-with-google", {
+      headers: { Authorization: data.token },
+    })
+    .then((response) => {
+      const user = response.data;
+      dispatch({ type: SIGN_IN_SUCCESS, payload: user });
+      localStorage.setItem("userInfo", JSON.stringify(user));
+    })
+    .catch((error) => {
+      const message = error.response
+        ? error.response.data.message
+        : error.message;
+      dispatch({ type: SIGN_IN_FAILURE, payload: message });
+    });
+};
+
 export const signUp = (data) => (dispatch) => {
   dispatch({ type: SIGN_UP_REQUEST });
 

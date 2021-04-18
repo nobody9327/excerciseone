@@ -17,7 +17,7 @@ function Product(props) {
           rating={product.rating}
           numOfReviews={product.numOfReviews}
         ></Rating>
-        <span className="price">${product.price}</span>
+        <span className="price">{product.price} đ</span>
       </div>
     </div>
   );

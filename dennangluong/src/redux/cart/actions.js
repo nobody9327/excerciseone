@@ -47,15 +47,17 @@ export const clearCart = () => (dispatch) => {
   localStorage.removeItem('cartItems');
 };
 
-export const getCart = (token) => (dispatch) => {
+export const getCart = () => (dispatch, getState) => {
+  const {userInfo} = getState().user;
   dispatch({ type: FETCH_CART_REQUEST });
 
   axios
-    .get("/cart", { headers: { Authorization: `Bearer ${token}` } })
+    .get("/cart", { headers: { Authorization: `Bearer ${userInfo.token}` } })
     .then((response) => {
-      const cartItems = response.data;
-      dispatch({ type: FETCH_CART_SUCCESS, payload: cartItems });
+      const {cartItems, shippingAddress} = response.data;
+      dispatch({ type: FETCH_CART_SUCCESS, payload: {cartItems, shippingAddress} });
       localStorage.setItem("cartItems", JSON.stringify(cartItems));
+      localStorage.setItem("shippingAddress", JSON.stringify(shippingAddress));
     })
     .catch((error) => {
       console.log("error", error);
@@ -88,11 +90,12 @@ export const emptyCart = () => (dispatch, getState) => {
   // localStorage.removeItem("shippingAddress");
 };
 
-export const saveShippingAddress = (data) => (dispatch) => {
+export const saveShippingAddress = (data) => (dispatch, getState) => {
+  const {userInfo} = getState().user;
   dispatch({ type: UPDATE_SHIPPING_ADDRESS_REQUEST });
-  console.log("token", data.token);
+  // console.log("token", data.token);
   const config = {
-    headers: { Authorization: `Bearer ${data.token}` },
+    headers: { Authorization: `Bearer ${userInfo.token}` },
   };
   axios
     .post("/shipping-address/update", data, config)
@@ -113,10 +116,11 @@ export const saveShippingAddress = (data) => (dispatch) => {
     });
 };
 
-export const fetchShippingAddress = (token) => (dispatch) => {
+export const fetchShippingAddress = () => (dispatch, getState) => {
+  const {userInfo} = getState().user;
   dispatch({ type: UPDATE_SHIPPING_ADDRESS_REQUEST });
   axios
-    .get("/shipping-address", { headers: { Authorization: `Bearer ${token}` } })
+    .get("/shipping-address", { headers: { Authorization: `Bearer ${userInfo.token}` } })
     .then((response) => {
       const shippingAddress = response.data;
       dispatch({

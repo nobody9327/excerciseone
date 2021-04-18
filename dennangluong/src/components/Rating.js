@@ -1,4 +1,5 @@
 import React from "react";
+import { nobody } from "../constants/AppConstants";
 
 function Rating(props) {
   const { rating, numOfReviews } = props;
@@ -16,7 +17,7 @@ function Rating(props) {
     stars.push(<span key={i} className={classes}></span>);
   }
 
-  stars.push(<span key={6}>{numOfReviews} reviews</span>);
+  stars.push(<span key={6}> {numOfReviews} {nobody.product.rating.reviews}</span>);
 
   return <div className="rating">{stars}</div>;
 }

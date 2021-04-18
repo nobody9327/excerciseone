@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
+import { nobody } from "../constants/AppConstants";
 import { fetchOrders } from "../redux/order/actions";
 
 function OrderHistoryScreen(props) {
@@ -23,11 +24,12 @@ function OrderHistoryScreen(props) {
         <table className="table">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>DATE</th>
-              <th>TOTAL</th>
-              <th>DELIVERED</th>
-              <th>ACTIONS</th>
+              <th>{nobody.order.id}</th>
+              <th>{nobody.order.orderDate}</th>
+              <th>{nobody.order.total}</th>
+              <th>{nobody.order.payment.title}</th>
+              <th>{nobody.order.delivery.title}</th>
+              <th>{nobody.order.action.title}</th>
             </tr>
           </thead>
           <tbody>

@@ -18,8 +18,9 @@ shippingAddressRouter.post(
       currentAddress.fullName = req.body.fullName;
       currentAddress.address = req.body.address;
       currentAddress.city = req.body.city;
-      currentAddress.postalCode = req.body.postalCode;
-      currentAddress.country = req.body.country;
+      currentAddress.county = req.body.county;
+      currentAddress.district = req.body.district;
+      currentAddress.phone = req.body.phone;
       // console.log("currentAddress", currentAddress);
       const updatedAddress = await currentAddress.save();
       res.send(updatedAddress);
@@ -28,8 +29,9 @@ shippingAddressRouter.post(
         fullName: req.body.fullName,
         address: req.body.address,
         city: req.body.city,
-        postalCode: req.body.postalCode,
-        country: req.body.country,
+        county: req.body.county,
+        district: req.body.district,
+        phone: req.body.phone,
         user: user._id,
       });
       res.send(updatedAddress);

@@ -11,21 +11,21 @@ import {
   getCart,
 } from "./redux/cart/actions";
 import { signout } from "./redux/user/actions";
+import ProductsAministration from "./screens/admin/ProductsAministration";
+import UpdateProductScreen from "./screens/admin/UpdateProductScreen";
+import UserAdministration from "./screens/admin/UserAdministration";
+import SigninScreen from "./screens/authen/SigninScreen";
+import SignupScreen from "./screens/authen/SignupScreen";
 import CartScreens from "./screens/CartScreens";
+import PaymentScreen from "./screens/checkout/PaymentScreen";
+import PlaceOrderScreen from "./screens/checkout/PlaceOrderScreen";
+import ShippingScreen from "./screens/checkout/ShippingScreen";
 import HomeScreen from "./screens/HomeScreen";
 import OrderHistoryScreen from "./screens/OrderHistoryScreen";
 import OrderScreen from "./screens/OrderScreen";
-import PaymentScreen from "./screens/PaymentScreen";
-import PlaceOrderScreen from "./screens/PlaceOrderScreen";
-import ProductsAministration from "./screens/ProductsAministration";
 import ProductScreen from "./screens/ProductScreen";
 import ProfileScreen from "./screens/ProfileScreen";
-import ShippingScreen from "./screens/ShippingScreen";
-import SigninScreen from "./screens/SigninScreen";
-import SignupScreen from "./screens/SignupScreen";
-import UpdateProductScreen from "./screens/UpdateProductScreen";
-import UserAdministration from "./screens/UserAdministration";
-import UserProfileScreen from "./screens/UserProfileScreen";
+// import UserProfileScreen from "./screens/UserProfileScreen";
 
 function App() {
   const user = useSelector((state) => state.user);
@@ -44,8 +44,8 @@ function App() {
 
   useEffect(() => {
     if (userInfo && userInfo.token) {
-      Promise.resolve(dispatch(getCart(userInfo.token))).then(
-        dispatch(fetchShippingAddress(userInfo.token))
+      Promise.resolve(dispatch(getCart())).then(
+        // dispatch(fetchShippingAddress())
       );
     }
   }, [dispatch, userInfo]);
@@ -58,12 +58,14 @@ function App() {
             {nobody.brandName}
           </a>
           <div>
-            <Link to="/cart">
-              {`${nobody.header.cart} `}
-              <span className="badge">
-                {(cartItems && cartItems.length) || 0}
-              </span>
-            </Link>
+            {(!userInfo || !userInfo.isAdmin) && (
+              <Link to="/cart">
+                {`${nobody.header.cart} `}
+                <span className="badge">
+                  {(cartItems && cartItems.length) || 0}
+                </span>
+              </Link>
+            )}
 
             {userInfo && userInfo.name ? (
               <div className="dropdown">
@@ -107,9 +109,9 @@ function App() {
                       </li>
                     </>
                   )}
-                  <li>
+                  {/* <li>
                     <a>------</a>
-                  </li>
+                  </li> */}
                   <li>
                     <Link to="/" onClick={signoutHandler}>
                       {nobody.header.signout}
@@ -170,7 +172,8 @@ function App() {
           <Route path="/" exact component={HomeScreen}></Route>
         </main>
         <footer className="row center">
-          <span>{nobody.footer}</span>
+          <span>{nobody.footer.hotline}</span>
+          <span>{nobody.footer.email}</span>
         </footer>
       </div>
     </BrowserRouter>

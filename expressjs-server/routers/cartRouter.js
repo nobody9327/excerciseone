@@ -2,6 +2,7 @@ import express from "express";
 import expressAsyncHandler from "express-async-handler";
 import Cart from "../models/cartModel.js";
 import Product from "../models/productModel.js";
+import ShippingAdress from "../models/shippingAddressModel.js";
 import { createToken, isAuth } from "../utils.js";
 
 const cartRouter = express.Router();
@@ -52,6 +53,8 @@ cartRouter.get(
     res.status(201).send();
   })
 );
+
+//update cart: remove, add item, createnew cart if not exists
 cartRouter.get(
   "/update",
   isAuth,
@@ -74,34 +77,40 @@ cartRouter.get(
             ? { product: productId, quantity: qty }
             : item
         );
-
-        // console.log("newCart", newCart);
       }
     } else {
-      newCart = new Cart({ items: [{ product: productId, quantity: qty }], user: user._id });
+      newCart = new Cart({
+        items: [{ product: productId, quantity: qty }],
+        user: user._id,
+      });
     }
 
     const createdCart = await newCart.save();
+    console.log("cart", createdCart);
     const cartItems = await Promise.all(
       createdCart.items.map(async (item) => {
         const p = await Product.findById(item.product);
         // console.log("p", p);
-        return {
-          name: p.name,
-          price: p.price,
-          image: p.image,
-          description: p.description,
-          rating: p.rating,
-          numOfReviews: p.numOfReviews,
-          quantity: p.quantity,
-          brand: p.brand,
-          category: p.category,
-          countInStock: p.countInStock,
-          _id: p._id,
-          quantity: item.quantity,
-        };
+        if (p) {
+          return {
+            name: p.name,
+            price: p.price,
+            image: p.image,
+            description: p.description,
+            rating: p.rating,
+            numOfReviews: p.numOfReviews,
+            quantity: p.quantity,
+            brand: p.brand,
+            category: p.category,
+            countInStock: p.countInStock,
+            _id: p._id,
+            quantity: item.quantity,
+            active: item.active,
+          };
+        }
       })
     );
+    cartItems.filter((item) => item != null);
 
     // console.log("cartItems", cartItems);
     res.send(cartItems);
@@ -117,26 +126,29 @@ cartRouter.get(
       const cartItems = await Promise.all(
         cart.items.map(async (item) => {
           const p = await Product.findById(item.product);
-          return {
-            name: p.name,
-            price: p.price,
-            image: p.image,
-            description: p.description,
-            rating: p.rating,
-            numOfReviews: p.numOfReviews,
-            quantity: p.quantity,
-            brand: p.brand,
-            category: p.category,
-            countInStock: p.countInStock,
-            _id: p._id,
-            quantity: item.quantity,
-          };
+          if (p) {
+            return {
+              name: p.name,
+              price: p.price,
+              image: p.image,
+              description: p.description,
+              rating: p.rating,
+              numOfReviews: p.numOfReviews,
+              quantity: p.quantity,
+              brand: p.brand,
+              category: p.category,
+              countInStock: p.countInStock,
+              _id: p._id,
+              quantity: item.quantity,
+              active: item.active,
+            };
+          }
         })
       );
-      // console.log("cartItems", cartItems);
-      res.send(cartItems);
+      const shippingAddress = await ShippingAdress.findOne({ user: user._id });
+      res.send({ cartItems, shippingAddress });
     } else {
-      res.send([]);
+      res.send({ cartItems: [], shippingAddress: {} });
     }
   })
 );

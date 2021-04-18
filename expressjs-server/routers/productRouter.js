@@ -34,7 +34,11 @@ productRouter.get(
     // console.log("params", req);
     const id = req.query.id;
     if (id) {
-      const product = await Product.deleteOne({ _id: id });
+      const product = await Product.findById(id);
+      if(product){
+        product.active = false;
+        product.save();
+      }
       res.status(201);
       res.send({ message: "success" });
       return;

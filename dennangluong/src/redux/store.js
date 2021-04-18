@@ -37,7 +37,8 @@ const initialState = {
     error: "",
     shippingAddress: localStorage.getItem("shippingAddress")
       ? JSON.parse(localStorage.getItem("shippingAddress"))
-      : {},
+      : undefined,
+    updateSuccess: false,
   },
   user: {
     userInfo: localStorage.getItem("userInfo")

@@ -2,8 +2,10 @@ import {
   EMPTY_CART_FAILURE,
   EMPTY_CART_REQUEST,
   EMPTY_CART_SUCCESS,
+  UPDATE,
   UPDATE_SHIPPING_ADDRESS_FAILURE,
   UPDATE_SHIPPING_ADDRESS_REQUEST,
+  UPDATE_SHIPPING_ADDRESS_RESET,
   UPDATE_SHIPPING_ADDRESS_SUCCESS,
 } from "../cart/constants";
 import {
@@ -22,22 +24,29 @@ export const cartReducer = (state = {}, action) => {
     case CART_UPDATE_REQUEST:
       return {
         ...state,
-        loading: true,
-        error: "",
+        updateLoading: true,
+        updateError: "",
       };
 
     case CART_UPDATE_SUCCESS:
+      // if(action.payload.type === UPDATE){
+      //   return {
+      //     ...state,
+      //     loading: false,
+      //     cartItems: state.cartItems.map(item => item._id === action.pa)
+      //   }
+      // }
       return {
         ...state,
-        loading: false,
+        updateLoading: false,
         cartItems: action.payload,
       };
 
     case CART_UPDATE_FAILURE:
       return {
         ...state,
-        loading: false,
-        error: action.payload,
+        updateLoading: false,
+        updateError: action.payload,
       };
 
     case FETCH_CART_REQUEST:
@@ -51,7 +60,8 @@ export const cartReducer = (state = {}, action) => {
       return {
         ...state,
         loading: false,
-        cartItems: action.payload,
+        cartItems: action.payload.cartItems,
+        shippingAddress: action.payload.shippingAddress,
       };
 
     case FETCH_CART_FAILURE:
@@ -64,22 +74,29 @@ export const cartReducer = (state = {}, action) => {
     case UPDATE_SHIPPING_ADDRESS_REQUEST:
       return {
         ...state,
-        loading: true,
-        error: "",
+        addressLoading: true,
+        addressError: "",
       };
 
     case UPDATE_SHIPPING_ADDRESS_SUCCESS:
       return {
         ...state,
-        loading: false,
+        addressLoading: false,
         shippingAddress: action.payload,
+        updateSuccess: true,
       };
 
     case UPDATE_SHIPPING_ADDRESS_FAILURE:
       return {
         ...state,
-        loading: false,
-        error: action.payload,
+        addressLoading: false,
+        addressError: action.payload,
+      };
+
+    case UPDATE_SHIPPING_ADDRESS_RESET:
+      return {
+        ...state,
+        updateSuccess: false,
       };
 
     case SAVE_PAYMENT_METHOD_REQUEST:

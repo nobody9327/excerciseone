@@ -126,10 +126,10 @@ const data = {
     ],
     users: [
         {
-            name: 'Phan Van Hau',
-            email: 'hau.phanvan93@gmail.com',
+            name: 'Quản lý',
+            email: 'solarhta@gmail.com',
             address: 'Thanh Long, Thanh Chương, Nghệ An',
-            password: bcrypt.hashSync('123', 8),
+            password: bcrypt.hashSync('S@l@rht@2021', 8),
             isAdmin: true
         },
         {

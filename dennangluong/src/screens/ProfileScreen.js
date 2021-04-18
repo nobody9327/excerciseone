@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { nobody } from "../constants/AppConstants";
 
 function ProfileScreen(props) {
   const user = useSelector((state) => state.user);
@@ -24,21 +25,24 @@ function ProfileScreen(props) {
     if (!user) {
       dispatch({ type: "" });
     }
+    setName(userInfo.name);
+    setEmail(userInfo.email);
+    setPhone(userInfo.phone);
   }, []);
 
   return (
     <div>
       <form className="form" onSubmit={(e) => submitHandler(e)}>
         <div>
-          <h1>Profile</h1>
+          <h1>{nobody.user.profile}</h1>
         </div>
         <div>
-          <label htmlFor="name">Name</label>
+          <label htmlFor="name">{nobody.user.name}</label>
           <input
             id="name"
             name="name"
             type="text"
-            placeholder="Enter your name"
+            placeholder={nobody.user.namePlaceHolder}
             value={name}
             onChange={(e) => setName(e.target.value)}
           ></input>
@@ -50,18 +54,18 @@ function ProfileScreen(props) {
             type="email"
             required
             value={email}
-            placeholder="Enter your email"
+            placeholder={nobody.user.emailPlaceHolder}
             onChange={(e) => setEmail(e.target.value)}
           ></input>
         </div>
         <div>
-          <label htmlFor="phone">Phone</label>
+          <label htmlFor="phone">{nobody.user.phone}</label>
           <input
             id="phone"
             type="phone"
             required
             value={phone}
-            placeholder="Enter your phone"
+            placeholder={nobody.user.phonePlaceHolder}
             onChange={(e) => setPhone(e.target.value)}
           ></input>
         </div>
@@ -103,7 +107,7 @@ function ProfileScreen(props) {
         <div>
           <label></label>
           <button className="primary block" type="submit">
-            Update
+            {nobody.user.update}
           </button>
         </div>
       </form>
