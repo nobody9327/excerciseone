@@ -1,4 +1,5 @@
 import React from "react";
+import { formatter } from "../util/utils";
 import Rating from "./Rating";
 
 function Product(props) {
@@ -7,7 +8,7 @@ function Product(props) {
   return (
     <div className="card">
       <a href={`/products/${product._id}`}>
-        <img className="medium" src={product.image} alt={product.name} />
+        <img className="medium" src={product.images[0].url} alt={product.name} />
       </a>
       <div className="card-body">
         <a href={`/products/${product._id}`}>
@@ -17,7 +18,7 @@ function Product(props) {
           rating={product.rating}
           numOfReviews={product.numOfReviews}
         ></Rating>
-        <span className="price">{product.price} đ</span>
+        <span className="price">{formatter.format(product.price)}</span>
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import CheckoutStep from '../../components/CheckoutStep'
 import { nobody } from "../../constants/AppConstants";
 
 function PaymentScreen(props) {
-  const [paymentMethod, setPaymentMethod] = useState("PayPal");
+  const [paymentMethod, setPaymentMethod] = useState(nobody.payment.cod);
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 

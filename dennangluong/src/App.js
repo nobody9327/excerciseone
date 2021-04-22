@@ -25,6 +25,7 @@ import ShippingScreen from "./screens/checkout/ShippingScreen";
 import HomeScreen from "./screens/HomeScreen";
 import OrderHistoryScreen from "./screens/OrderHistoryScreen";
 import OrderScreen from "./screens/OrderScreen";
+import ProductDetailsScreen from "./screens/product/ProductDetailsScreen";
 import ProductScreen from "./screens/ProductScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import TestProductScreen from "./test/TestProductScreen";
@@ -47,10 +48,7 @@ function App() {
 
   useEffect(() => {
     if (userInfo && userInfo.token) {
-      Promise.resolve(dispatch(getCart()))
-        .then
-        // dispatch(fetchShippingAddress())
-        ();
+      dispatch(getCart());
     }
   }, [dispatch, userInfo]);
 
@@ -193,7 +191,12 @@ function App() {
           {/* for test */}
           <Route path="/signup" component={SignupScreen}></Route>
           <Route path="/sign-in" component={SigninScreen}></Route>
-          <Route path="/products/:id" component={ProductScreen} exact></Route>
+          {/* <Route path="/products/:id" component={ProductScreen} exact></Route> */}
+          <Route
+            path="/products/:id"
+            component={ProductDetailsScreen}
+            exact
+          ></Route>
           <Route path="/" exact component={HomeScreen}></Route>
         </main>
         <footer className="row center">

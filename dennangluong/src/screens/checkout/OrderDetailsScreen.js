@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import LoadingBox from "../../components/LoadingBox";
+import MessageBox from "../../components/MessageBox";
 import { nobody } from "../../constants/AppConstants";
 import { fetchOrderDetails } from "../../redux/order/actions";
 
 function OrderDetailsScreen(props) {
   const id = props.match.params.id;
   const order = useSelector((state) => state.order);
-  const { orderDetails } = order;
+  const { orderDetails, loading, error } = order;
   const {
     orderItems,
     paymentMethod,
@@ -31,7 +33,11 @@ function OrderDetailsScreen(props) {
       dispatch(fetchOrderDetails({ _id: id }));
     }
   }, []);
-
+  if (loading) {
+    return <LoadingBox></LoadingBox>;
+  } else if (error) {
+    return <MessageBox variant="danger">{error}</MessageBox>;
+  }
   return (
     <div>
       <div className="row top">
@@ -44,7 +50,8 @@ function OrderDetailsScreen(props) {
               <strong>{nobody.user.name}: </strong>
               {shippingAddress.fullName}
               <br />
-              <strong>{nobody.user.phone}: </strong>{shippingAddress.phone}
+              <strong>{nobody.user.phone}: </strong>
+              {shippingAddress.phone}
               <br />
               <strong>{nobody.user.address}: </strong>
               {shippingAddress.address}, {shippingAddress.county},{" "}
@@ -56,7 +63,7 @@ function OrderDetailsScreen(props) {
               <h1>{nobody.checkout.payment}</h1>
             </div>
             <p>
-              <strong>{nobody.payment.method}:</strong> {paymentMethod}
+              <strong>{nobody.payment.method}:</strong> {nobody.payment.cod }{/*paymentMethod}*/}
             </p>
           </div>
           <div className="card card-body">

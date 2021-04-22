@@ -54,7 +54,7 @@ function CartScreens(props) {
         <tbody>
         {cartItems.map((item) => (
             <tr key={item._id} >
-              <td><img className="small" src={item.image} alt={item.name} /></td>
+              <td><img className="small" src={item.images && item.images[0].url} alt={item.name} /></td>
               <td><span>{item.name}</span></td>
               {/* <TestComponent></TestComponent> */}
               <td>

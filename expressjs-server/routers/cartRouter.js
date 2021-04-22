@@ -27,7 +27,7 @@ cartRouter.get(
         return {
           name: p.name,
           price: p.price,
-          image: p.image,
+          images: p.images,
           description: p.description,
           rating: p.rating,
           numOfReviews: p.numOfReviews,
@@ -130,7 +130,7 @@ cartRouter.get(
             return {
               name: p.name,
               price: p.price,
-              image: p.image,
+              images: p.images,
               description: p.description,
               rating: p.rating,
               numOfReviews: p.numOfReviews,

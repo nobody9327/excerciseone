@@ -21,7 +21,7 @@ function PlaceOrderScreen(props) {
     (a, b) => a + b.price * b.quantity,
     0
   );
-  cart.taxPrice = (cart.itemsPrice * 10) / 100;
+  cart.taxPrice = 0;//(cart.itemsPrice * 10) / 100;
   cart.totalPrice = cart.itemsPrice + cart.taxPrice;
   cart.itemsPrice = cart.itemsPrice.toFixed(2);
   cart.taxPrice = cart.taxPrice.toFixed(2);
@@ -32,7 +32,7 @@ function PlaceOrderScreen(props) {
     e.preventDefault();
     // console.log(cart);
     const orderItems = cart.cartItems.map((item) => {
-      return { ...item, product: item._id };
+      return { ...item, product: item._id, image: item.images[0].url};
     });
     dispatch(
       createOrder({
@@ -99,7 +99,7 @@ function PlaceOrderScreen(props) {
                   cart.cartItems.map((item) => (
                     <tr key={item._id}>
                       <td>
-                        <img className="small" src={item.image} />
+                        <img className="small" src={item.images && item.images[0].url} />
                       </td>
                       <td>
                         <a href={`/products/${item._id}`}>{item.name}</a>

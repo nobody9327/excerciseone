@@ -16,11 +16,12 @@ function UpdateProductScreen(props) {
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
-  const [image, setImage] = useState("");
+  const [images, setImages] = useState("");
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
   const [description, setDescription] = useState("");
   const [countInStock, setCountInStock] = useState(1);
+  const [specification, setSpecification] = useState("");
   const [rating, setRating] = useState(5);
   const [numOfReviews, setNumOfReviews] = useState(0);
   const [loadingUpload, setLoadingUpload] = useState(false);
@@ -44,8 +45,15 @@ function UpdateProductScreen(props) {
         price,
         rating,
         numOfReviews,
-        image,
-        description,
+        images,
+        description: description
+          .split("\n")
+          .map((e) => `<p>${e}</p>`)
+          .join(""),
+        specification: specification
+          .split("\n")
+          .map((e) => `<p>${e}</p>`)
+          .join(""),
         countInStock,
       })
     );
@@ -54,21 +62,24 @@ function UpdateProductScreen(props) {
 
   const uploadImageHandler = async (e) => {
     e.preventDefault();
-    const file = e.target.files[0];
-    if (file) {
+    const files = e.target.files;
+    if (files) {
       const bodyFormData = new FormData();
-      bodyFormData.append("image", file);
-      bodyFormData.append("name", file.name);
+      for (let i = 0; i<files.length; i++) {
+        bodyFormData.append("images", files[i]);
+      }
+
       setLoadingUpload(true);
       try {
-        const { data } = await axios.post("/uploads", bodyFormData, {
+        const { data } = await axios.post("/uploads/images", bodyFormData, {
           headers: {
             Authorization: `Bearer ${user.userInfo.token}`,
             "Content-Type": "multipart/form-data",
           },
         });
 
-        setImage(data);
+        setImages(data);
+        console.log('images', data)
         setLoadingUpload(false);
       } catch (ex) {
         setErrorUpload(ex.message);
@@ -92,19 +103,24 @@ function UpdateProductScreen(props) {
       setCategory(product.category);
       setBrand(product.brand);
       setPrice(product.price);
-      setImage(product.image);
+      setImages(product.images);
       setDescription(product.description);
+      setSpecification(product.specification);
       setCountInStock(product.countInStock);
-    }else{
-      setName('');
-      setCategory('');
-      setBrand('');
+    } else {
+      setName("");
+      setCategory("");
+      setBrand("");
       setPrice(0);
-      setImage('');
-      setDescription('');
-      setCountInStock('');
+      setImages([]);
+      setDescription("");
+      setCountInStock("");
     }
   }, [product, refProduct]);
+
+  // useEffect(() => {
+  //   console.log("description", description.replaceAll("\n", "<br>"));
+  // }, [description]);
 
   return (
     <div>
@@ -119,7 +135,10 @@ function UpdateProductScreen(props) {
         ) : ( */}
         <>
           <div>
-            <label htmlFor="name">{nobody.product.name}<span className="danger">*</span></label>
+            <label htmlFor="name">
+              {nobody.product.name}
+              <span className="danger">*</span>
+            </label>
             <input
               id="name"
               name="name"
@@ -131,7 +150,10 @@ function UpdateProductScreen(props) {
             />
           </div>
           <div>
-            <label htmlFor="price">{nobody.product.price}<span className="danger">*</span></label>
+            <label htmlFor="price">
+              {nobody.product.price}
+              <span className="danger">*</span>
+            </label>
             <input
               id="price"
               name="price"
@@ -143,29 +165,33 @@ function UpdateProductScreen(props) {
             />
           </div>
           <div>
-            <label htmlFor="image">{nobody.product.image}<span className="danger">*</span></label>
-            <input
-              id="image"
-              name="image"
-              type="text"
-              required
-              value={image}
-              placeholder="Enter image"
-              onChange={(e) => setImage(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="imageFile">{nobody.product.imageFile}<span className="danger">*</span></label>
+            <label htmlFor="imageFile">
+              {nobody.product.imageFile}
+              <span className="danger">*</span>
+            </label>
             <input
               type="file"
               id="imageFile"
               required
+              multiple
               label={nobody.product.chooseImage}
               onChange={(e) => uploadImageHandler(e)}
             />
           </div>
           <div>
-            <label htmlFor="category">{nobody.product.category}<span className="danger">*</span></label>
+            <p>
+              {images && images.map((v, k) => (
+                <span key={k}>
+                  {v.name} <br/>
+                </span>
+              ))}
+            </p>
+          </div>
+          <div>
+            <label htmlFor="category">
+              {nobody.product.category}
+              <span className="danger">*</span>
+            </label>
             <input
               id="category"
               name="category"
@@ -177,7 +203,10 @@ function UpdateProductScreen(props) {
             />
           </div>
           <div>
-            <label htmlFor="brand">{nobody.product.brand}<span className="danger">*</span></label>
+            <label htmlFor="brand">
+              {nobody.product.brand}
+              <span className="danger">*</span>
+            </label>
             <input
               id="brand"
               name="brand"
@@ -189,7 +218,10 @@ function UpdateProductScreen(props) {
             />
           </div>
           <div>
-            <label htmlFor="countInStock">{nobody.product.countInStock}<span className="danger">*</span></label>
+            <label htmlFor="countInStock">
+              {nobody.product.countInStock}
+              <span className="danger">*</span>
+            </label>
             <input
               id="countInStock"
               name="countInStock"
@@ -201,12 +233,27 @@ function UpdateProductScreen(props) {
             />
           </div>
           <div>
-            <label htmlFor="description">{nobody.product.description}<span className="danger">*</span></label>
+            <label htmlFor="specification">
+              {nobody.product.details.specification.title}
+              <span className="danger">*</span>
+            </label>
+            <textarea
+              id="specification"
+              name="specification"
+              type="text"
+              required
+              value={specification}
+              placeholder="Enter description"
+              rows="3"
+              onChange={(e) => setSpecification(e.target.value)}
+            ></textarea>
+          </div>
+          <div>
+            <label htmlFor="description">{nobody.product.description}</label>
             <textarea
               id="description"
               name="description"
               type="text"
-              required
               value={description}
               placeholder="Enter description"
               rows="3"

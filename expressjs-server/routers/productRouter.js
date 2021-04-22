@@ -81,8 +81,9 @@ productRouter.post(
     product.price = req.body.price;
     product.rating = req.body.rating;
     product.numOfReviews = req.body.numOfReviews;
-    product.image = req.body.image;
+    product.images = req.body.images;
     product.description = req.body.description;
+    product.specification = req.body.specification;
     product.countInStock = req.body.countInStock;
 
     const createdProduct = await product.save();
